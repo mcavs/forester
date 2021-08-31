@@ -33,14 +33,12 @@ Core functions in `forester` package are:
 ​
 ``` r
 data("titanic", package = 'DALEX') 
-best_model <- forester(data = titanic, target = "survived", type = "regression",
+best_model <- forester(data = titanic, target = "survived", type = "classification",
 		       metric = "precision", tune = FALSE)
-​
-# Print ranking table for models:
-print(best_model)
+
 ​
 # The best_model object can be used for giving explanation:
-modelStudio::modelStudio(best_model)
+plot(model_performance(best_model))
 ```
 ​
 ​
@@ -59,7 +57,6 @@ predict(catboost, apartments_test)
 # explanation:
 model_performance(catboost)
 plot(model_performance(catboost))
-modelStudio::modelStudio(catboost)
 ```
 ​
 <img src="man/figures/forester_diagram.png" align="center" width="600"/>
