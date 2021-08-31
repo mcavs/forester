@@ -70,4 +70,5 @@ modelStudio::modelStudio(catboost)
    - [Explainer](https://rdrr.io/cran/DALEX/man/explain.html)
    - [Connection with DALEX family](https://github.com/ModelOriented/DALEX)
 ​
+
 This project was implemented by Szymon Szmajdziński and Hoang Thien Ly under the supervision of Anna Kozak and Przemysław Biecek at MI^2 DataLab.
