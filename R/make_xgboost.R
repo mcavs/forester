@@ -57,7 +57,7 @@
 #' plot(model_performance(titanic_explainer))
 ##
 
-make_xgboost <- function(data, target, type, fill_na = FALSE, num_features = NULL, tune = FALSE, tune_metric = NULL, tune_iter = 20, label = "XGboost", use.port = FALSE){
+make_xgboost <- function(data, target, type, fill_na = FALSE, num_features = NULL, tune = FALSE, tune_metric = NULL, tune_iter = 20, label = "XGboost", use_port = FALSE){
   
   message("--- Creating XGboost model ---")
   ### Preparing data 
@@ -176,7 +176,7 @@ make_xgboost <- function(data, target, type, fill_na = FALSE, num_features = NUL
     }
     
     
-    ifelse(use.port == TRUE, warm.start = data.frame(nrounds = 342,
+    ifelse(use_port == TRUE, warm_start = data.frame(nrounds = 342,
                                                      eta = 0.03755386,
                                                      subsample = 0.9046967,
                                                      max_depth = 6,
@@ -185,7 +185,7 @@ make_xgboost <- function(data, target, type, fill_na = FALSE, num_features = NUL
                                                      colsample_bylevel = 0.7356931,
                                                      lambda = 1,
                                                      alpha = 0), 
-           warm.start = NULL)
+           warm_start = NULL)
     
     # Tuning process:
     tuned_xgboost <- rBayesianOptimization::BayesianOptimization(xgboost_tune_fun,
@@ -198,7 +198,7 @@ make_xgboost <- function(data, target, type, fill_na = FALSE, num_features = NUL
                                                                                colsample_bylevel = c(0,1),
                                                                                lambda = c(-10,10),
                                                                                alpha = c(-10,10)),
-                                                                 init_grid_dt = warm.start,
+                                                                 init_grid_dt = warm_start,
                                                                  init_points = 5,
                                                                  n_iter = tune_iter,
                                                                  acq = "ucb",
