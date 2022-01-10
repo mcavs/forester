@@ -57,12 +57,12 @@
 #' plot(model_performance(titanic_explainer))
 ##
 
-make_xgboost <- function(data, target, type, fill_na = FALSE, num_features = NULL, tune = FALSE, tune_metric = NULL, tune_iter = 20, label = "XGboost", use_port = FALSE){
+make_xgboost <- function(data, target, type, fill_na = FALSE, num_features = NULL, tune = FALSE, tune_metric = NULL, tune_iter = 20, label = "XGboost", use_port = FALSE, make_balance = FALSE){
   
   message("--- Creating XGboost model ---")
   ### Preparing data 
   prepared_data <- prepare_data(data, target, type, fill_na = fill_na,
-                                num_features = num_features)
+                                num_features = num_features, make_balance = make_balance)
   
   data <- prepared_data$data
   modifications <- prepared_data$modifications
