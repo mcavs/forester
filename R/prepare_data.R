@@ -35,7 +35,7 @@
 ##
 
 
-prepare_data  <- function(data_train, target, type, fill_na = TRUE, num_features = NULL){
+prepare_data  <- function(data_train, target, type, fill_na = TRUE, num_features = NULL, make_balance = FALSE){
   
   ### Conditions 
   data_train <- check_conditions(data_train, target, type)
@@ -109,64 +109,64 @@ prepare_data  <- function(data_train, target, type, fill_na = TRUE, num_features
   }
   
   
-  
-  ### Over or under sampling 
-  if (type == "classification"){
-    uniq <- unique(data_train[[target]])
-    nrow_class_1 <- nrow(data_train[data_train[[target]] == uniq[1] , , drop = FALSE])
-    nrow_class_2 <- nrow(data_train) - nrow_class_1
-    percent_class_1 <- round(nrow_class_1/nrow(data_train) * 100, 4) 
-    percent_class_2 <- round((100 - percent_class_1), 4)
+  if(make_balance == TRUE){
+    ### Over or under sampling 
+    if (type == "classification"){
+      uniq <- unique(data_train[[target]])
+      nrow_class_1 <- nrow(data_train[data_train[[target]] == uniq[1] , , drop = FALSE])
+      nrow_class_2 <- nrow(data_train) - nrow_class_1
+      percent_class_1 <- round(nrow_class_1/nrow(data_train) * 100, 4) 
+      percent_class_2 <- round((100 - percent_class_1), 4)
     
-    if (percent_class_1 < 10 | percent_class_1 > 90){
-      message("_____________")
-      message("Imbalanced data")
-      message("Your training set has: ",nrow(data_train),"rows in total.")
-      message("Class ", uniq[1], " accounts for ", percent_class_1, "%")
-      message("Class ", uniq[2], " accounts for ", percent_class_2, "%")
-      message("Your data might be imbalanced. Do you want to use oversampling or undersampling method?. Press 0, 1 or 2 to decide.")
-      message("0 - nothing")
-      message("1 - undersampling")
-      message("2 - oversampling")
-      message("What is your choice?")
+      if (percent_class_1 < 10 | percent_class_1 > 90){
+        message("_____________")
+        message("Imbalanced data")
+        message("Your training set has: ",nrow(data_train),"rows in total.")
+        message("Class ", uniq[1], " accounts for ", percent_class_1, "%")
+        message("Class ", uniq[2], " accounts for ", percent_class_2, "%")
+        message("Your data might be imbalanced. Do you want to use oversampling or undersampling method?. Press 0, 1 or 2 to decide.")
+        message("0 - nothing")
+        message("1 - undersampling")
+        message("2 - oversampling")
+        message("What is your choice?")
       
-      con <- getOption("mypkg.connection")
-      #choice <- readLines(con = con, n = 1)
-      choice <- readline()
-      
-      while (choice != 0 & choice != 1 & choice != 2){
-        message("Wrong option. Choose option: ")
+        con <- getOption("mypkg.connection")
         #choice <- readLines(con = con, n = 1)
         choice <- readline()
-      }
       
-      # Starting sampling method:
-      class_1_ind <- which(data_train[[target]] == uniq[1])
-      class_2_ind <- which(data_train[[target]] == uniq[2])
+        while (choice != 0 & choice != 1 & choice != 2){
+          message("Wrong option. Choose option: ")
+          #choice <- readLines(con = con, n = 1)
+          choice <- readline()
+        }
       
-      # Undersampling:
-      if (choice == 1){
-        n_samp <- min(length(class_1_ind), length(class_2_ind))
-        ind1   <- sample(class_1_ind, n_samp)
-        ind2   <- sample(class_2_ind, n_samp)
-        data_train <- data_train[c(ind1,ind2),]
-        message("Performing undersampling")
-        message("Shape of data train frame after undersampling: ",
-                nrow(data_train), " rows, ", ncol(data_train), " columns")
+        # Starting sampling method:
+        class_1_ind <- which(data_train[[target]] == uniq[1])
+        class_2_ind <- which(data_train[[target]] == uniq[2])
+      
+        # Undersampling:
+        if (choice == 1){
+          n_samp <- min(length(class_1_ind), length(class_2_ind))
+          ind1   <- sample(class_1_ind, n_samp)
+          ind2   <- sample(class_2_ind, n_samp)
+          data_train <- data_train[c(ind1,ind2),]
+          message("Performing undersampling")
+          message("Shape of data train frame after undersampling: ",
+                  nrow(data_train), " rows, ", ncol(data_train), " columns")
         
-      } else if (choice == 2){
-        # Oversampling
-        n_samp <- max(length(class_1_ind), length(class_2_ind))
-        ind1 <- sample(class_1_ind, n_samp, replace = !(length(class_1_ind) == n_samp))
-        ind2 <- sample(class_2_ind, n_samp, replace = !(length(class_2_ind) == n_samp))
-        data_train <- data_train[c(ind1,ind2), ]
-        message("Performing oversampling")
-        message("Shape of data train frame after oversampling: ",
-                nrow(data_train), " rows, ", ncol(data_train), " columns")
+        } else if (choice == 2){
+          # Oversampling
+          n_samp <- max(length(class_1_ind), length(class_2_ind))
+          ind1 <- sample(class_1_ind, n_samp, replace = !(length(class_1_ind) == n_samp))
+          ind2 <- sample(class_2_ind, n_samp, replace = !(length(class_2_ind) == n_samp))
+          data_train <- data_train[c(ind1,ind2), ]
+          message("Performing oversampling")
+          message("Shape of data train frame after oversampling: ",
+                  nrow(data_train), " rows, ", ncol(data_train), " columns")
+        }
       }
     }
   }
-
   ### Feature selection 
   if (!is.null(num_features)){
     message("_____________")
