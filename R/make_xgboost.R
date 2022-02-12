@@ -57,6 +57,7 @@
 #' plot(model_performance(titanic_explainer))
 ##
 
+# use_port and make_balance arguments are added.
 make_xgboost <- function(data, target, type, fill_na = FALSE, num_features = NULL, tune = FALSE, tune_metric = NULL, tune_iter = 20, label = "XGboost", use_port = FALSE, make_balance = FALSE){
   
   message("--- Creating XGboost model ---")
@@ -175,7 +176,7 @@ make_xgboost <- function(data, target, type, fill_na = FALSE, num_features = NUL
       list(Score = score, Pred = predicted)
     }
     
-    
+# the warm-start grid values are added to init_grid_dt argument.    
     ifelse(use_port == TRUE, warm_start = data.frame(nrounds = 342,
                                                      eta = 0.03755386,
                                                      subsample = 0.9046967,
