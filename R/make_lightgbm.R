@@ -171,7 +171,7 @@ make_lightgbm <- function(data, target, type, num_features = NULL, fill_na = TRU
       }
       # If user wants to return probability of classes: remove ifelse statement.
       if (type == "classification"){
-        predicted <- ifelse(predict(lightgbm_tune, data_val) >= 0.5, 1, 0)
+        predicted <- predict(lightgbm_tune, data_val)
       }
      
       score <- desc * calculate_metric(tune_metric, predicted, y_val)
