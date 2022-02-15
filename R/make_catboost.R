@@ -140,7 +140,7 @@ make_catboost <-function(data, target, type, fill_na = TRUE, num_features = NULL
     newdata_pool <- catboost::catboost.load_pool(newdata)
     pred <- catboost::catboost.predict(object, newdata_pool)
     if (type == "classification"){
-      return( ifelse(pred >= 0.5, 1, 0))
+      return(pred)
     } else {
         return(pred)
     }
