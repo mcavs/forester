@@ -248,7 +248,7 @@ make_xgboost <- function(data, target, type, fill_na = FALSE, num_features = NUL
     }
     # If user wants to return probability of classes: remove ifelse statement.
     if (type == "classification"){
-      return(ifelse(predict(object, data_encoded_matrix_newdata) >= 0.5,1,0))
+      return(predict(object, data_encoded_matrix_newdata))
     }
   }
   
