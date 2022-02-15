@@ -150,7 +150,7 @@ make_ranger <- function(data, target, type, fill_na = FALSE, num_features = NULL
     rec <- object$modifications
     newdata <- as.data.frame(recipes::bake(rec, newdata))
     
-    return( predict(object, newdata)$predictions )
+    return(predict(object, newdata)$predictions)
   }
   
   rg$modifications <- modifications
