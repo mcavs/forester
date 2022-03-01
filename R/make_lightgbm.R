@@ -237,7 +237,7 @@ make_lightgbm <- function(data, target, type, num_features = NULL, fill_na = TRU
     if (type == "regression"){
       return(predict(object, data_encoded_matrix_newdata))
     } else {
-      return(ifelse(predict(object, data_encoded_matrix_newdata) >= 0.5, 1, 0))
+      return(predict(object, data_encoded_matrix_newdata))
     }
   }
   
